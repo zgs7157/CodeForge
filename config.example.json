@@ -1,0 +1,8 @@
+{
+  "model_file": "qwen2.5-coder-7b-instruct-q4_k_m.gguf",
+  "port": 18080,
+  "ngl": 99,
+  "ctx": 6144,
+  "threads": 6,
+  "auto_start": true
+}

@@ -1,0 +1,487 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<link rel="icon" href="/favicon.ico" type="image/x-icon">
+<title>CodeForge · 铸码工坊</title>
+<style>
+:root{--bg:#0a0c11;--panel:#11141c;--panel2:#151926;--line:rgba(255,255,255,.07);--text:#e8ebf3;--muted:#8b93a7;--dim:#5f6779;--accent:#7c5cff;--accent2:#22d3ee;--ok:#35d07f;--warn:#f5a524;--bad:#ff5d5d;--mono:"Cascadia Code",Consolas,"Microsoft YaHei UI",monospace;--sans:"Segoe UI","Microsoft YaHei UI",system-ui,sans-serif}
+*{box-sizing:border-box}html,body{height:100%}
+body{margin:0;background:radial-gradient(1200px 600px at 15% -10%,rgba(124,92,255,.16),transparent 60%),radial-gradient(900px 500px at 95% 0%,rgba(34,211,238,.10),transparent 55%),var(--bg);color:var(--text);font-family:var(--sans);font-size:14px;overflow:hidden}
+header{height:58px;display:flex;align-items:center;gap:14px;padding:0 18px;border-bottom:1px solid var(--line);background:rgba(12,14,20,.72);backdrop-filter:blur(14px)}
+.logo{display:flex;align-items:center;gap:10px;font-weight:700;letter-spacing:.4px}
+.mark{width:28px;height:28px;border-radius:8px;background:linear-gradient(135deg,var(--accent),var(--accent2));display:grid;place-items:center;font-size:15px;color:#fff;box-shadow:0 6px 18px rgba(124,92,255,.35)}
+.sub{color:var(--dim);font-size:12px;font-weight:500}
+.spacer{flex:1}
+.pill{display:flex;align-items:center;gap:8px;padding:6px 12px;border-radius:999px;border:1px solid var(--line);background:var(--panel);font-size:12px;color:var(--muted)}
+.dot{width:8px;height:8px;border-radius:50%;background:var(--dim)}
+.dot.ok{background:var(--ok);box-shadow:0 0 10px rgba(53,208,127,.6)}
+.dot.load{background:var(--warn);animation:pulse 1.2s infinite}
+.dot.bad{background:var(--bad)}
+@keyframes pulse{50%{opacity:.3}}
+main{display:grid;grid-template-columns:432px 1fr;height:calc(100% - 58px)}
+.left{border-right:1px solid var(--line);padding:16px;overflow:auto;display:flex;flex-direction:column;gap:14px;background:rgba(10,12,17,.5)}
+.right{display:flex;flex-direction:column;min-width:0;overflow:hidden}
+.card{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:14px}
+.label{font-size:12px;color:var(--muted);letter-spacing:.6px;margin-bottom:8px;display:flex;justify-content:space-between;align-items:center}
+textarea{width:100%;min-height:128px;resize:vertical;background:var(--panel2);color:var(--text);border:1px solid var(--line);border-radius:10px;padding:12px;font-family:var(--sans);font-size:13.5px;line-height:1.65;outline:none}
+textarea:focus{border-color:rgba(124,92,255,.55);box-shadow:0 0 0 3px rgba(124,92,255,.12)}
+textarea::placeholder{color:var(--dim)}
+.chips{display:flex;flex-wrap:wrap;gap:6px;margin-top:10px}
+.chip{font-size:11.5px;color:var(--muted);border:1px solid var(--line);background:var(--panel2);border-radius:999px;padding:4px 10px;cursor:pointer}
+.chip:hover{color:var(--text);border-color:rgba(124,92,255,.45)}
+select{width:100%;background:var(--panel2);color:var(--text);border:1px solid var(--line);border-radius:10px;padding:9px 10px;outline:none;font-family:var(--sans)}
+.levels{display:grid;grid-template-columns:repeat(4,1fr);gap:8px}
+.lv{border:1px solid var(--line);background:var(--panel2);border-radius:11px;padding:9px 6px;text-align:center;cursor:pointer;user-select:none}
+.lv:hover{border-color:rgba(124,92,255,.35)}
+.lv.on{border-color:rgba(124,92,255,.85);background:linear-gradient(180deg,rgba(124,92,255,.2),rgba(34,211,238,.05));box-shadow:0 6px 20px rgba(124,92,255,.18)}
+.lv b{display:block;font-size:13px}.lv span{display:block;font-size:10.5px;color:var(--dim);margin-top:3px}
+.lv.on span{color:#c9bfff}
+.lvdesc{font-size:12px;color:var(--muted);line-height:1.6;margin-top:9px;min-height:36px}
+.go{width:100%;padding:13px;border:0;border-radius:12px;cursor:pointer;font-size:15px;font-weight:700;color:#fff;background:linear-gradient(135deg,#7c5cff,#5b8cff 55%,#22d3ee);box-shadow:0 8px 26px rgba(92,120,255,.3);letter-spacing:.5px}
+.go:hover{filter:brightness(1.08)}.go:disabled{opacity:.45;cursor:not-allowed}
+.hintline{font-size:11.5px;color:var(--dim);line-height:1.7}
+.timeline{padding:14px 18px 8px;border-bottom:1px solid var(--line);overflow:auto;flex:0 0 auto;max-height:44%}
+.tl-title{display:flex;align-items:center;gap:10px;margin-bottom:10px}
+.tl-title h3{margin:0;font-size:14px;font-weight:600}
+.elapsed{font-size:12px;color:var(--dim);font-family:var(--mono)}
+.stage{display:grid;grid-template-columns:16px 1fr;gap:9px;padding:4px 0;align-items:start}
+.sdot{width:10px;height:10px;border-radius:50%;background:var(--dim);margin-top:5px}
+.stage.run .sdot{background:var(--accent2);animation:pulse 1s infinite}
+.stage.ok .sdot{background:var(--ok)}.stage.fail .sdot{background:var(--bad)}
+.stage .nm{font-size:13px;display:flex;gap:8px;align-items:baseline}
+.stage .st{font-size:11px;color:var(--dim)}
+.stage.run .st{color:var(--accent2)}.stage.ok .st{color:var(--ok)}.stage.fail .st{color:var(--bad)}
+.stage .msg{font-size:12px;color:var(--muted);margin-top:1px;line-height:1.55;word-break:break-all}
+.tabs{display:flex;gap:4px;padding:8px 16px 0;border-bottom:1px solid var(--line)}
+.tab{padding:8px 14px;font-size:13px;color:var(--muted);cursor:pointer;border-bottom:2px solid transparent;border-radius:8px 8px 0 0}
+.tab:hover{color:var(--text);background:rgba(255,255,255,.03)}
+.tab.on{color:var(--text);border-bottom-color:var(--accent);background:rgba(124,92,255,.08)}
+.pane{flex:1;overflow:auto;padding:14px 16px;display:none;min-height:0}
+.pane.on{display:block}
+.files{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:12px}
+.fchip{font-family:var(--mono);font-size:12px;padding:5px 9px;border-radius:7px;border:1px solid var(--line);background:var(--panel2);color:var(--muted);cursor:pointer}
+.fchip:hover{color:var(--text);border-color:rgba(124,92,255,.5)}
+.fchip.on{color:#fff;background:rgba(124,92,255,.18);border-color:rgba(124,92,255,.7)}
+.code{background:#0c0f16;border:1px solid var(--line);border-radius:12px;overflow:auto;font-family:var(--mono);font-size:12.5px;line-height:1.6;max-height:calc(100% - 46px)}
+.code table{border-collapse:collapse;width:100%}
+.code td{padding:0 12px;vertical-align:top;white-space:pre-wrap;word-break:break-word}
+.code td.no{color:#464d5e;text-align:right;user-select:none;width:1%;border-right:1px solid rgba(255,255,255,.05)}
+.code td.tx{color:#d7dbe6}
+.empty{color:var(--dim);font-size:13px;text-align:center;padding:36px 0}
+.testbox{display:flex;gap:18px;align-items:center;margin-bottom:12px}
+.score{font-size:30px;font-weight:700;font-family:var(--mono)}
+.score.ok{color:var(--ok)}.score.fail{color:var(--bad)}
+.tsub{font-size:12px;color:var(--muted)}
+pre.term{background:#0b0e15;border:1px solid var(--line);border-radius:12px;padding:12px;margin:0;font-family:var(--mono);font-size:12px;line-height:1.6;color:#b9c0d0;white-space:pre-wrap;word-break:break-word}
+.logline{padding:1px 0;color:#939bad;font-family:var(--mono);font-size:12px;white-space:pre-wrap}
+.logline b{color:var(--accent2);font-weight:500}
+.deliver{display:none;gap:10px;align-items:center;padding:11px 16px;border-top:1px solid var(--line);background:var(--panel)}
+.deliver.on{display:flex}
+.btn{border:1px solid var(--line);background:var(--panel2);color:var(--text);border-radius:10px;padding:9px 14px;font-size:13px;cursor:pointer;text-decoration:none}
+.btn:hover{border-color:rgba(124,92,255,.5);background:rgba(124,92,255,.12)}
+.btn.primary{background:linear-gradient(135deg,#7c5cff,#22d3ee);border:0;color:#fff;font-weight:600}
+.projmeta{font-size:12px;color:var(--muted);flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.toast{position:fixed;bottom:22px;left:50%;transform:translateX(-50%) translateY(20px);opacity:0;background:var(--panel2);border:1px solid rgba(124,92,255,.5);padding:10px 18px;border-radius:10px;font-size:13px;transition:.25s;pointer-events:none;z-index:9}
+.toast.on{opacity:1;transform:translateX(-50%) translateY(0)}
+.modes{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.mode{border:1px solid var(--line);background:var(--panel2);border-radius:10px;padding:9px;text-align:center;font-size:13px;cursor:pointer}
+.mode:hover{border-color:rgba(124,92,255,.4)}
+.mode.on{border-color:rgba(124,92,255,.85);background:linear-gradient(180deg,rgba(124,92,255,.2),rgba(34,211,238,.05));box-shadow:0 6px 18px rgba(124,92,255,.16)}
+.allowrow{display:flex;align-items:flex-start;gap:8px;margin-top:10px;font-size:12px;color:var(--muted);line-height:1.5}
+.allowrow input{accent-color:#7c5cff;width:15px;height:15px;margin-top:1px}
+.approval{display:none;margin:12px 16px 0;border:1px solid rgba(245,165,36,.5);background:rgba(245,165,36,.08);border-radius:12px;padding:12px}
+.approval.show{display:block}
+.ap-head{font-size:12px;color:#f5a524;letter-spacing:.5px;margin-bottom:6px}
+.ap-body{font-family:var(--mono);font-size:12px;color:#ffd9a0;word-break:break-all;white-space:pre-wrap;max-height:130px;overflow:auto}
+.ap-actions{display:flex;gap:8px;margin-top:10px;flex-wrap:wrap}
+.modal{position:fixed;inset:0;background:rgba(5,7,12,.72);display:none;align-items:center;justify-content:center;z-index:60;backdrop-filter:blur(3px)}
+.modal.on{display:flex}
+.mbox{width:min(820px,94vw);max-height:84vh;display:flex;flex-direction:column;background:#121620;border:1px solid var(--line);border-radius:16px;box-shadow:0 30px 90px rgba(0,0,0,.65);overflow:hidden}
+.mhead{display:flex;align-items:center;gap:10px;padding:14px 18px;border-bottom:1px solid var(--line)}
+.mhead b{font-size:15px}
+.mhead .hw{font-size:11.5px;color:var(--muted)}
+.mx{margin-left:auto;cursor:pointer;color:var(--muted);font-size:16px;line-height:1}
+.mx:hover{color:#f87171}
+.mbody{overflow:auto;padding:10px 14px 16px}
+.mrow{border:1px solid var(--line);border-radius:12px;padding:11px 13px;margin-bottom:9px;background:#151a25;display:grid;grid-template-columns:1fr auto;gap:10px;align-items:center}
+.mrow.rec{border-color:rgba(124,92,255,.65);background:linear-gradient(180deg,rgba(124,92,255,.10),rgba(34,211,238,.03))}
+.mrow.cur{border-color:rgba(52,211,153,.55)}
+.mname{font-size:13.5px;font-weight:600;display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.mtag{font-size:11px;color:var(--muted);font-family:var(--mono)}
+.mnote{font-size:11.5px;color:var(--muted);margin-top:5px;line-height:1.55}
+.bdg{font-size:10.5px;padding:2px 7px;border-radius:6px;border:1px solid var(--line);color:var(--muted)}
+.bdg.ok{color:#34d399;border-color:rgba(52,211,153,.45)}
+.bdg.warn{color:#f5a524;border-color:rgba(245,165,36,.45)}
+.bdg.bad{color:#f87171;border-color:rgba(248,113,113,.4)}
+.bdg.rec{color:#c4b5fd;border-color:rgba(124,92,255,.55);background:rgba(124,92,255,.12)}
+.mbtn{padding:8px 14px;border-radius:9px;border:1px solid var(--line);background:var(--panel2);color:var(--text);font-size:12.5px;cursor:pointer;white-space:nowrap}
+.mbtn:hover{border-color:rgba(124,92,255,.6)}
+.mbtn:disabled{opacity:.5;cursor:default}
+.mbtn.pri{background:linear-gradient(135deg,#7c5cff,#5b8cff);border:0;color:#fff}
+.mfoot{padding:10px 16px;border-top:1px solid var(--line);font-size:11.5px;color:var(--muted);display:flex;gap:10px;align-items:center}
+::-webkit-scrollbar{width:9px;height:9px}
+::-webkit-scrollbar-thumb{background:#252a38;border-radius:8px}
+</style>
+</head>
+<body>
+<header>
+  <div class="logo"><div class="mark">⌘</div>CodeForge<span class="sub">铸码工坊 · 本地代码大模型</span></div>
+  <div class="spacer"></div>
+  <div class="pill"><div class="dot" id="dot"></div><span id="engineText">连接中…</span></div>
+  <div class="pill" id="gpuPill" style="display:none"><span id="gpuText"></span></div>
+  <button class="btn" id="btnHud">悬浮窗</button>
+  <button class="btn" id="btnModels">模型库</button>
+  <button class="btn" id="btnReloadModel">重载模型</button>
+</header>
+<main>
+  <section class="left">
+    <div class="card">
+      <div class="label">运行模式</div>
+      <div class="modes" id="modes">
+        <div class="mode on" data-mode="code">代码工坊</div>
+        <div class="mode" data-mode="agent">电脑 Agent</div>
+      </div>
+      <div class="hintline" id="modeHint" style="margin-top:9px">代码工坊：输入需求 → 生成代码 → 自测 → 交付</div>
+      <div class="allowrow" id="allowRow" style="display:none">
+        <input type="checkbox" id="allowAll">
+        <label for="allowAll">全部允许：Agent 执行动作不再逐条确认（format / 删盘 / 关机这类危险命令仍会拦下来问）</label>
+      </div>
+    </div>
+    <div class="card">
+      <div class="label">需求描述 <span class="hintline" id="counter">0 字</span></div>
+      <textarea id="req" placeholder="用一句话说清你要什么，例如：写一个命令行工具，读取 CSV 文件，输出每个部门的平均工资，要有参数校验和异常提示。"></textarea>
+      <div class="chips">
+        <div class="chip">CSV 统计分析工具</div>
+        <div class="chip">批量重命名脚本</div>
+        <div class="chip">带测试的日期计算库</div>
+        <div class="chip">命令行记账本</div>
+        <div class="chip">文件去重工具</div>
+      </div>
+    </div>
+    <div class="card">
+      <div class="label">目标语言</div>
+      <select id="lang">
+        <option value="auto">自动判断（推荐）</option>
+        <option value="python">Python</option>
+        <option value="node">Node.js</option>
+        <option value="html">网页 HTML/JS</option>
+      </select>
+    </div>
+    <div class="card">
+      <div class="label">推理等级 <span class="hintline">越高越稳，也越慢</span></div>
+      <div class="levels" id="levels">
+        <div class="lv" data-level="fast"><b>极速</b><span data-code="1 轮" data-agent="≤4 步">1 轮</span></div>
+        <div class="lv on" data-level="standard"><b>标准</b><span data-code="3 轮" data-agent="≤6 步">3 轮</span></div>
+        <div class="lv" data-level="deep"><b>深度</b><span data-code="4 轮" data-agent="≤9 步">4 轮</span></div>
+        <div class="lv" data-level="ultra"><b>极限</b><span data-code="6 轮" data-agent="≤12 步">6 轮</span></div>
+      </div>
+      <div class="lvdesc" id="lvdesc">生成 + 自动写测试 + 最多 2 轮自修复</div>
+    </div>
+    <button class="go" id="btnRun">开始铸造</button>
+    <div class="hintline" id="footHint">生成物会落在 <b>projects/</b>：自动落盘 → 写单元测试 → 跑测试 → 按错误自修复 → 打包 zip。</div>
+  </section>
+  <section class="right">
+    <div class="approval" id="approval">
+      <div class="ap-head">⚠ Agent 请求执行操作，需要你批准</div>
+      <div class="ap-body" id="apBody"></div>
+      <div class="ap-actions">
+        <button class="btn" id="apDeny">拒绝</button>
+        <button class="btn primary" id="apAllow">允许</button>
+        <button class="btn" id="apAllowAll">允许，并全部允许</button>
+      </div>
+    </div>
+    <div class="timeline">
+      <div class="tl-title"><h3 id="tlTitleH3">铸造进度</h3><span class="elapsed" id="elapsed">--</span></div>
+      <div id="stages"></div>
+    </div>
+    <div class="tabs">
+      <div class="tab on" data-pane="files">产物文件</div>
+      <div class="tab" data-pane="tests">测试报告</div>
+      <div class="tab" data-pane="log">运行日志</div>
+    </div>
+    <div class="pane on" id="pane-files">
+      <div class="files" id="fileList"></div>
+      <div id="codeWrap"><div class="empty">还没有产物。写下需求，点「开始铸造」。</div></div>
+    </div>
+    <div class="pane" id="pane-tests">
+      <div id="testSummary"><div class="empty">测试尚未运行。</div></div>
+      <pre class="term" id="testOut" style="display:none"></pre>
+    </div>
+    <div class="pane" id="pane-log">
+      <div id="logBox"><div class="empty">日志为空。</div></div>
+    </div>
+    <div class="deliver" id="deliver">
+      <div class="projmeta" id="projMeta"></div>
+      <button class="btn" id="btnRunIt">试运行</button>
+      <button class="btn" id="btnOpen">打开目录</button>
+      <a class="btn primary" id="btnZip" href="#">下载 ZIP</a>
+    </div>
+  </section>
+</main>
+<div class="modal" id="modelModal">
+  <div class="mbox">
+    <div class="mhead">
+      <b>模型库</b><span class="hw" id="hwText">正在探测硬件…</span>
+      <span class="mx" id="mClose">✕</span>
+    </div>
+    <div class="mbody" id="mBody"></div>
+    <div class="mfoot" id="mFoot">按显存挑能全量塞下的最强模型；显存不够会标注「部分卸载」，速度掉一半以上</div>
+  </div>
+</div>
+<div class="toast" id="toast"></div>
+<script>
+const STAGES_CODE=[["plan","需求解析"],["generate","生成代码"],["project","写入项目"],["static","静态检查"],["testgen","编写测试"],["test","运行测试"],["repair","自修复"],["review","代码审查"],["done","打包交付"]];
+const STAGES_AGENT=[["plan","接管电脑"],["generate","思考决策"],["action","执行动作"],["done","收尾"]];
+let STAGES=STAGES_CODE;
+const $=id=>document.getElementById(id);
+let state={taskId:null,files:{},current:null,busy:false,project:null,entry:"main.py",logo:false,mode:"code",agent:false,pending:null};
+const LEVEL_INFO={fast:["极速","单次生成 + 语法自检"],standard:["标准","生成 + 自动写测试 + 最多 3 轮自修复"],deep:["深度","2 候选择优 + 4 轮修复 + 代码审查"],ultra:["极限","3 候选 + 6 轮修复 + 审查 + 边界强化"]};
+const AGENT_LEVEL_INFO={fast:["极速","最多 4 步，适合一两个动作的小事"],standard:["标准","最多 6 步，常规任务"],deep:["深度","最多 9 步，多文件多命令"],ultra:["极限","最多 12 步，长链路任务"]};
+function refreshLvDesc(){
+  const l=document.querySelector(".lv.on");
+  document.querySelectorAll(".lv span[data-code]").forEach(s=>{s.textContent=state.mode==="agent"?s.dataset.agent:s.dataset.code;});
+  if(!l)return;
+  $("lvdesc").textContent=(state.mode==="agent"?AGENT_LEVEL_INFO:LEVEL_INFO)[l.dataset.level][1];
+}
+
+function toast(t){const el=$("toast");el.textContent=t;el.classList.add("on");clearTimeout(el._t);el._t=setTimeout(()=>el.classList.remove("on"),2200);}
+function renderStages(){
+  $("stages").innerHTML=STAGES.map(([k,n])=>`<div class="stage" id="st-${k}"><div class="sdot"></div><div><div class="nm"><span>${n}</span><span class="st" data-role="st">等待</span></div><div class="msg" data-role="msg"></div></div></div>`).join("");
+}
+function setStage(k,status,msg){
+  const el=$("st-"+k);if(!el)return;
+  el.className="stage "+(status==="running"?"run":status==="ok"?"ok":status==="fail"?"fail":"");
+  el.querySelector('[data-role="st"]').textContent=status==="running"?"进行中":status==="ok"?"完成":status==="fail"?"失败":status||"等待";
+  if(msg)el.querySelector('[data-role="msg"]').textContent=msg;
+}
+function addLog(text){
+  const box=$("logBox");
+  if(box.querySelector(".empty"))box.innerHTML="";
+  const line=document.createElement("div");line.className="logline";
+  const t=new Date().toLocaleTimeString("zh-CN",{hour12:false});
+  line.innerHTML=`<b>${t}</b> ${escapeHtml(text)}`;
+  box.appendChild(line);box.scrollTop=box.scrollHeight;
+}
+function escapeHtml(s){return (s||"").replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;");}
+function renderFiles(){
+  const list=Object.keys(state.files);
+  $("fileList").innerHTML=list.map(p=>`<div class="fchip${p===state.current?" on":""}" data-path="${escapeHtml(p)}">${escapeHtml(p)}</div>`).join("");
+  $("fileList").querySelectorAll(".fchip").forEach(c=>c.onclick=()=>{state.current=c.dataset.path;renderFiles();showCode(c.dataset.path);});
+  if(list.length&&!state.current){state.current=list[0];renderFiles();showCode(state.current);}
+  if(!list.length)$("codeWrap").innerHTML='<div class="empty">还没有产物。写下需求，点「开始铸造」。</div>';
+}
+function showCode(path){
+  const text=state.files[path]??"";
+  const rows=text.replace(/\n$/,"").split("\n").map((l,i)=>`<tr><td class="no">${i+1}</td><td class="tx">${escapeHtml(l)||" "}</td></tr>`).join("");
+  $("codeWrap").innerHTML=`<div class="code"><table>${rows}</table></div>`;
+  $("btnRunIt").style.display=(path.endsWith(".py")||path.endsWith(".js"))?"":"none";
+  if(path.endsWith(".py")||path.endsWith(".js"))state.entry=path;
+  document.querySelector('.tab[data-pane="files"]').click();
+}
+function setTest(res){
+  if(!res)return;
+  const ok=!!res.ok;
+  $("testSummary").innerHTML=`<div class="testbox"><div class="score ${ok?"ok":"fail"}">${ok?"✓":"×"}</div><div><div style="font-size:14px;font-weight:600">${ok?"测试全部通过":"存在失败用例"}</div><div class="tsub">用例 ${res.total||0} 个 · 失败 ${res.failed||0} 个</div></div></div>`;
+  if(res.output){$("testOut").style.display="block";$("testOut").textContent=res.output;}
+}
+function resetUI(){
+  state.files={};state.current=null;
+  $("fileList").innerHTML="";$("codeWrap").innerHTML='<div class="empty">正在铸造…</div>';
+  $("testSummary").innerHTML='<div class="empty">测试尚未运行。</div>';$("testOut").style.display="none";$("testOut").textContent="";
+  $("logBox").innerHTML='<div class="empty">日志为空。</div>';
+  $("deliver").classList.remove("on");
+  renderStages();
+}
+async function start(){
+  const req=$("req").value.trim();
+  if(!req){toast("先写需求");$("req").focus();return;}
+  if(state.busy)return;
+  if(!logoReady){toast("本地模型还没加载好，等指示灯变绿");return;}
+  state.busy=true;$("btnRun").disabled=true;$("btnRun").textContent="执行中…";
+  resetUI();state.t0=Date.now();
+  const level=document.querySelector(".lv.on").dataset.level;
+  const isAgent=state.mode==="agent";
+  const r=await fetch(isAgent?"/api/agent":"/api/run",{method:"POST",headers:{"Content-Type":"application/json"},
+    body:JSON.stringify(isAgent?{goal:req,level:level,policy:$("allowAll").checked?"auto":"ask"}
+                                :{requirement:req,language:$("lang").value,level:level})});
+  const j=await r.json();
+  if(j.error){toast(j.error);state.busy=false;$("btnRun").disabled=false;$("btnRun").textContent=isAgent?"交给 Agent":"开始铸造";return;}
+  state.taskId=j.id;state.agent=isAgent;listen(j.id);
+}
+function listen(id){
+  const es=new EventSource("/api/events?id="+id);
+  es.onmessage=(m)=>{
+    const ev=JSON.parse(m.data);
+    handleEvent(ev);
+    if(ev.phase==="result"||ev.phase==="error"||ev.phase==="__end__"){es.close();finish(ev);}
+  };
+  es.onerror=()=>{ if(!state.busy){es.close();} };
+}
+function handleEvent(ev){
+  if(ev.phase==="approval"&&ev.request){showApproval(ev.request);addLog("Agent 请求批准："+ev.request.action);return;}
+  if(ev.phase==="thought"){addLog("💭 "+ev.message);return;}
+  if(ev.phase==="log"){addLog(ev.message);return;}
+  if(ev.phase==="file"){ if(ev.message&&ev.message.includes("（"))addLog(ev.message); if(ev.detail)state.files[ev.message.split("（")[0]]=ev.detail; renderFiles(); return;}
+  if(ev.phase==="files"){return;}
+  if(ev.phase==="result"){return;}
+  if(ev.phase==="action"){setStage("action",ev.status,ev.message);addLog(ev.message+(ev.detail?"\n"+String(ev.detail).slice(0,800):""));return;}
+  const stageMap={plan:"plan",generate:"generate",project:"project",static:"static",testgen:"testgen",test:"test",repair:"repair",review:"review",done:"done",error:"done"};
+  const k=stageMap[ev.phase];if(k)setStage(k,ev.status,ev.message);
+  if(ev.phase==="test"&&ev.detail)setTest({ok:ev.status==="ok",total:(ev.message.match(/(\d+)\s*个用例/)||[])[1]||0,failed:0,output:ev.detail});
+  addLog(ev.message);
+  if(ev.detail&&ev.phase!=="file"&&ev.phase!=="test")addLog("   "+String(ev.detail).slice(0,2000));
+}
+function showApproval(req){
+  state.pending=req;
+  const a=req.args||{};
+  const body=req.action==="shell"?`动作：执行命令\n$ ${a.command||""}`:`动作：${req.action}\n${Object.entries(a).map(([k,v])=>k+"："+v).join("\n")}`;
+  $("apBody").textContent=body;
+  $("approval").classList.add("show");
+  document.querySelector('.tab[data-pane="log"]').click();
+}
+async function decide(d,all){
+  if(!state.pending)return;
+  const id=state.pending.id;state.pending=null;
+  $("approval").classList.remove("show");
+  if(all){$("allowAll").checked=true;}
+  await fetch("/api/agent/approve",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({id:id,decision:d,allow_all:all})});
+  addLog(d==="allow"?"✅ 已允许"+(all?"（之后全部允许）":""):"⛔ 已拒绝");
+}
+function finish(ev){
+  state.busy=false;$("btnRun").disabled=false;$("btnRun").textContent=state.mode==="agent"?"交给 Agent":"开始铸造";
+  $("approval").classList.remove("show");state.pending=null;
+  const res=ev.result||JSON.parse(ev.detail||"{}");
+  if(state.agent||state.mode==="agent"){
+    if(!res||!res.workdir){addLog("Agent 失败："+(ev.message||""));toast("Agent 执行失败");return;}
+    state.project=res.workdir.split(/[\\/]/).pop();
+    $("deliver").classList.add("on");
+    $("projMeta").textContent=`${state.project} · ${res.ok?"已完成":"未完成（步数上限）"} · ${(res.steps||[]).length} 步`;
+    $("btnZip").style.display="none";
+    $("btnRunIt").style.display="none";
+    toast(res.ok?"Agent 执行完毕，成果在 "+state.project:"Agent 到达步数上限，已停止");
+    document.querySelector('.tab[data-pane="log"]').click();
+    return;
+  }
+  if(!res||!res.project){toast("铸造失败");addLog("失败："+(ev.message||""));return;}
+  state.project=res.project.split(/[\\/]/).pop();
+  const tests=res.tests||{};
+  setTest({ok:tests.ok,total:tests.total,failed:tests.failed,output:res.test_output||""});
+  if(res.aligned){$("testSummary").innerHTML+=`<div class="tsub" style="margin-top:-6px">注：有断言按实际返回值做过快照对齐（弱验证）。</div>`;}
+  $("deliver").classList.add("on");
+  $("projMeta").textContent=`${state.project} · ${res.level_label} · ${res.elapsed}s · ${res.files.length} 个文件 ${res.verified?"":"· ⚠ 测试未全绿"}`;
+  $("btnZip").style.display="";
+  $("btnRunIt").style.display="";
+  $("btnZip").href="/api/download?project="+encodeURIComponent(state.project);
+  toast(res.verified?"铸造完成，测试全绿，可下载 ZIP":"铸造完成，但测试未全绿，建议看测试报告");
+  document.querySelector('.tab[data-pane="tests"]').click();
+}
+function poll(){
+  fetch("/api/state").then(r=>r.json()).then(s=>{
+    const d=$("dot"),t=$("engineText");
+    const st=s.engine.state;
+    d.className="dot "+(st==="ready"?"ok":st==="loading"?"load":st==="error"?"bad":"");
+    t.textContent=st==="ready"?(s.engine.model||"模型就绪").split(/[\\/]/).pop():st==="loading"?"模型加载中…":st==="error"?"模型异常":s.engine.message||"未启动";
+    logoReady=st==="ready";
+    if(s.gpu&&s.gpu.total){$("gpuPill").style.display="flex";$("gpuText").textContent=`${s.gpu.name} · ${s.gpu.used}/${s.gpu.total} MiB`;}
+  }).catch(()=>{});
+}
+let logoReady=false;
+$("req").addEventListener("input",e=>$("counter").textContent=e.target.value.length+" 字");
+document.querySelectorAll(".chip").forEach(c=>c.onclick=()=>{const m={"CSV 统计分析工具":"写一个命令行工具，读取 CSV 文件，统计每个部门的平均工资和人数，支持 --file 参数，文件不存在或格式错误时给出友好提示。","批量重命名脚本":"写一个批量重命名脚本，按规则给指定目录下的文件加序号前缀，支持 --dry-run 预览、--pattern 过滤，并防止覆盖已有文件。","带测试的日期计算库":"写一个日期工具库，提供两个函数：计算两个日期之间的工作日数量和判断某天是否为节假日，要有完整单元测试。","命令行记账本":"写一个命令行记账本，数据存本地 JSON，支持添加、删除、列出、按月份汇总支出，输出对齐的表格。","文件去重工具":"写一个文件去重工具，扫描指定目录，按内容哈希找出重复文件，列出结果并支持 --delete 安全删除。"};$("req").value=m[c.textContent]||c.textContent;$("counter").textContent=$("req").value.length+" 字";});
+document.querySelectorAll(".lv").forEach(l=>l.onclick=()=>{document.querySelectorAll(".lv").forEach(x=>x.classList.remove("on"));l.classList.add("on");refreshLvDesc();});
+document.querySelectorAll(".mode").forEach(m=>m.onclick=()=>{
+  if(state.busy){toast("正在跑，等这次结束再切模式");return;}
+  document.querySelectorAll(".mode").forEach(x=>x.classList.remove("on"));m.classList.add("on");
+  state.mode=m.dataset.mode;
+  const ag=state.mode==="agent";
+  STAGES=ag?STAGES_AGENT:STAGES_CODE;renderStages();
+  $("allowRow").style.display=ag?"flex":"none";
+  $("modeHint").textContent=ag?"电脑 Agent：自己规划步骤、动手操作，动作逐条等你批准":"代码工坊：输入需求 → 生成代码 → 自测 → 交付";
+  $("btnRun").textContent=ag?"交给 Agent":"开始铸造";
+  $("footHint").innerHTML=ag?"Agent 的工作目录在 <b>projects/</b>：每步动手前都会先问你要不要批准，全部允许后就不再逐条打扰。":"生成物会落在 <b>projects/</b>：自动落盘 → 写单元测试 → 跑测试 → 按错误自修复 → 打包 zip。";
+  refreshLvDesc();
+  $("tlTitleH3")&&($("tlTitleH3").textContent=ag?"Agent 运行轨迹":"铸造进度");
+  $("deliver").classList.remove("on");
+});
+document.querySelectorAll(".tab").forEach(t=>t.onclick=()=>{document.querySelectorAll(".tab").forEach(x=>x.classList.remove("on"));t.classList.add("on");document.querySelectorAll(".pane").forEach(p=>p.classList.remove("on"));$("pane-"+t.dataset.pane).classList.add("on");});
+$("btnRun").onclick=start;
+$("apDeny").onclick=()=>decide("deny",false);
+$("apAllow").onclick=()=>decide("allow",false);
+$("apAllowAll").onclick=()=>decide("allow",true);
+$("btnOpen").onclick=()=>fetch("/api/open?project="+encodeURIComponent(state.project),{method:"POST"}).then(()=>toast("已打开项目目录"));
+$("btnRunIt").onclick=()=>fetch("/api/run_file?project="+encodeURIComponent(state.project),{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({entry:state.entry})}).then(r=>r.json()).then(j=>{document.querySelector('.tab[data-pane="tests"]').click();$("testOut").style.display="block";$("testOut").textContent=(j.output||j.error||"无输出")+"\n[退出码] "+(j.code??"-");});
+$("btnModels").onclick=openModels;
+$("mClose").onclick=()=>{ $("modelModal").classList.remove("on"); clearInterval(modelTimer); };
+$("modelModal").onclick=e=>{ if(e.target.id==="modelModal"){ $("modelModal").classList.remove("on"); clearInterval(modelTimer); } };
+$("btnHud").onclick=()=>fetch("/api/hud/open",{method:"POST"}).then(()=>toast("悬浮窗已调出（右上角）"));
+$("btnReloadModel").onclick=()=>{fetch("/api/model/stop",{method:"POST"}).then(()=>fetch("/api/model",{method:"POST"})).then(()=>toast("正在重载模型"));};
+setInterval(poll,2500);setInterval(()=>{if(state.t0&&state.busy){$("elapsed").textContent=Math.round((Date.now()-state.t0)/1000)+"s";}},1000);
+let MODELS=null, modelTimer=null;
+async function openModels(){
+  $("modelModal").classList.add("on");
+  $("mBody").innerHTML='<div class="empty">正在探测显卡与内存…</div>';
+  await refreshModels();
+  clearInterval(modelTimer);
+  modelTimer=setInterval(async()=>{
+    if(!$("modelModal").classList.contains("on")){clearInterval(modelTimer);return;}
+    await refreshModels(true);
+  },2000);
+}
+async function refreshModels(silent){
+  try{
+    const r=await fetch("/api/models");MODELS=await r.json();
+    if(MODELS.error){$("mBody").innerHTML=`<div class="empty">探测失败：${escapeHtml(MODELS.error)}</div>`;return;}
+    renderModels();
+  }catch(e){ if(!silent)$("mBody").innerHTML='<div class="empty">无法连接服务</div>'; }
+}
+function renderModels(){
+  const hw=MODELS.hardware||{};
+  $("hwText").textContent=`${hw.gpu?hw.gpu.name:"无独显"} · 显存 ${hw.vram_mb} MB · 内存 ${hw.ram_gb} GB · ${hw.cores} 核 · 可用 ${hw.disk_free_gb} GB`;
+  const rows=MODELS.models.map(m=>{
+    const fit = m.load_mode==="full" ? '<span class="bdg ok">全量进显存</span>'
+            : m.load_mode==="partial" ? '<span class="bdg warn">部分卸载 · 明显变慢</span>'
+            : '<span class="bdg bad">显存跑不动</span>';
+    const rec = m.recommended?'<span class="bdg rec">推荐</span>':'';
+    const cur = m.current?'<span class="bdg ok">当前</span>':'';
+    const inst = m.installed?'<span class="bdg">已下载</span>':`<span class="bdg">需下载 ${m.size_gb} GB</span>`;
+    const label = m.current?'当前使用':(m.installed?'切换':'下载并切换');
+    const dis = (m.current || m.load_mode==='no') ? 'disabled' : '';
+    return `<div class="mrow ${m.recommended?'rec':''} ${m.current?'cur':''}">
+      <div>
+        <div class="mname">${escapeHtml(m.name)} ${rec}${cur}</div>
+        <div class="mtag">${escapeHtml(m.params)} · ${m.quant} · ${m.size_gb} GB · 质量分 ${m.quality}</div>
+        <div class="mnote">${escapeHtml(m.note)}</div>
+        <div class="mtag" style="margin-top:6px">${fit} ${inst}</div>
+      </div>
+      <button class="mbtn ${m.current?'':'pri'}" ${dis} onclick="switchModel('${m.id}')">${label}</button>
+    </div>`;
+  }).join("");
+  $("mBody").innerHTML=rows;
+  const sw=MODELS.switch||{};
+  if(sw.phase&&sw.phase!=="idle"&&sw.phase!=="done"){
+    const pct=Math.round(sw.pct||0);
+    $("mFoot").innerHTML=`<span style="color:#c4b5fd">${escapeHtml(sw.msg||"准备中…")} ${pct?pct+"%":""}</span>`;
+  }else if(sw.phase==="done"){
+    $("mFoot").innerHTML=`<span style="color:#34d399">${escapeHtml(sw.msg||"已切换")}</span>`;
+  }else{
+    $("mFoot").textContent="按显存挑能全量塞下的最强模型；显存不够会标注「部分卸载」，速度掉一半以上";
+  }
+}
+async function switchModel(id){
+  const m=(MODELS.models||[]).find(x=>x.id===id);
+  if(!m)return;
+  if(!confirm(`切到 ${m.name} ${m.quant}（${m.size_gb} GB）？\n${m.installed?"本地已有，只需重启引擎。":"需要先从 ModelScope 下载。"}`))return;
+  $("mBody").querySelectorAll("button").forEach(b=>b.disabled=true);
+  await fetch("/api/model/switch",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({id:id})});
+  $("mFoot").innerHTML='<span style="color:#c4b5fd">已开始，下载/重启期间主界面会短暂不可用…</span>';
+  setTimeout(()=>refreshModels(true),1500);
+}
+renderStages();poll();
+const _qs=new URLSearchParams(location.search);
+if(_qs.get("mode")==="agent")document.querySelector('.mode[data-mode="agent"]').click();
+if(_qs.get("models")==="1")openModels();
+if(_qs.get("demo")==="approval")showApproval({id:"demo",action:"shell",args:{command:"powershell -NoProfile -Command \"Get-ChildItem -Force | Select-Object Name,Length\""}});
+</script>
+</body>
+</html>

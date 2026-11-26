@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>下载 CodeForge · 铸码工坊</title>
+<meta name="description" content="下载 CodeForge 铸码工坊：完全本地运行的 AI 代码工坊 + 电脑 Agent。Windows 安装包、版本校验值、系统要求与安装步骤。">
+<link rel="icon" href="../assets/codeforge.ico">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<div class="nav">
+  <div class="wrap">
+    <a class="brand" href="index.html"><img src="../assets/icon256.png" alt="">CodeForge<span style="color:var(--mut);font-weight:400">· 铸码工坊</span></a>
+    <nav>
+      <a href="index.html#features">功能</a>
+      <a href="index.html#shots">界面</a>
+      <a href="index.html#models">模型适配</a>
+      <a href="download.html">下载</a>
+      <a href="https://github.com/zgs7157/CodeForge" target="_blank" rel="noopener">GitHub</a>
+    </nav>
+  </div>
+</div>
+
+<header class="hero" style="padding:64px 0 34px">
+  <div class="wrap">
+    <div class="eyebrow"><span class="dot"></span> 最新稳定版</div>
+    <h1 style="font-size:clamp(28px,3.6vw,40px)">下载 CodeForge</h1>
+    <p class="lead" style="margin-bottom:0">Windows 安装包自带推理引擎与界面，装的时候按你的显存自动下载模型。</p>
+  </div>
+</header>
+
+<section style="padding-top:10px">
+  <div class="wrap">
+    <div class="dcard">
+      <div class="dhead">
+        <div>
+          <div style="display:flex;align-items:center;gap:10px;margin-bottom:6px">
+            <span class="vtag">v1.0.0</span>
+            <span style="color:var(--mut);font-size:13px">2026-11-26 发布</span>
+          </div>
+          <h3 style="margin:0 0 4px;font-size:19px">CodeForge-Setup.exe</h3>
+          <p style="margin:0;color:var(--mut);font-size:13.5px">Windows 10 / 11 · x64 · 单文件安装包（不含模型）</p>
+        </div>
+        <a class="btn btn-primary" href="https://github.com/zgs7157/CodeForge/releases/latest/download/CodeForge-Setup.exe">立即下载 · 50.8 MB</a>
+      </div>
+
+      <div class="kv">
+        <div><span>文件大小</span><b>50.8 MB</b></div>
+        <div><span>版本</span><b>1.0.0</b></div>
+        <div><span>许可</span><b>MIT</b></div>
+        <div><span>需要</span><b>NVIDIA 6G 显存起</b></div>
+      </div>
+
+      <p style="color:var(--mut);font-size:13px;margin:14px 0 6px">SHA-256</p>
+      <pre>74f6037b9b7072515dc4551c9c161767fef1c405f25dec95341050192bef4fc3</pre>
+
+      <div class="note" style="margin-top:18px">
+        Windows SmartScreen 可能提示「未知发布者」——因为这是未做代码签名的自编译程序。点「更多信息 → 仍要运行」即可；
+        介意的话可以先用上面的 SHA-256 校验文件，或直接<a href="https://github.com/zgs7157/CodeForge" target="_blank" rel="noopener" style="color:#b8a4ff">从源码自己打包</a>。
+      </div>
+
+      <div style="display:flex;flex-wrap:wrap;gap:12px;margin-top:20px">
+        <a class="btn btn-ghost" href="https://github.com/zgs7157/CodeForge/releases" target="_blank" rel="noopener">全部版本 / 更新日志</a>
+        <a class="btn btn-ghost" href="https://github.com/zgs7157/CodeForge" target="_blank" rel="noopener">源码仓库</a>
+      </div>
+    </div>
+
+    <div class="grid g2" style="margin-top:24px">
+      <div class="card">
+        <h3><span class="ic">1</span>安装步骤</h3>
+        <div class="steps">
+          <div class="step"><div class="num">1</div><div><h4>运行安装包</h4><p>双击 CodeForge-Setup.exe。向导会先探测你的显卡与内存，自动选中合适的模型并标「← 推荐」，可手动改选。</p></div></div>
+          <div class="step"><div class="num">2</div><div><h4>选目录与选项</h4><p>默认装到 <code class="inl">D:\APP\CodeForge</code>（选 C 盘会二次确认）。可勾选桌面快捷方式、开始菜单、是否安装时下载模型。</p></div></div>
+          <div class="step"><div class="num">3</div><div><h4>等模型下完</h4><p>4.47 GB 的 7B 模型约几分钟（视网速）。不勾下载也行，首次启动后用界面「模型库」补上。</p></div></div>
+          <div class="step"><div class="num">4</div><div><h4>开始用</h4><p>完成页点「立即启动」。首次加载模型 20~40 秒，右上角指示灯变绿即可。</p></div></div>
+        </div>
+      </div>
+
+      <div class="card">
+        <h3><span class="ic">⚙</span>系统要求</h3>
+        <table style="margin-top:6px">
+          <tbody>
+            <tr><td style="width:42%;color:var(--mut)">系统</td><td>Windows 10 / 11 x64</td></tr>
+            <tr><td style="color:var(--mut)">显卡</td><td>NVIDIA 独显，6G 显存起（4G 可用 3B）</td></tr>
+            <tr><td style="color:var(--mut)">内存</td><td>8 GB 起（16 GB 更稳）</td></tr>
+            <tr><td style="color:var(--mut)">磁盘</td><td>约 12 GB（程序 0.1 GB + 模型 4.5~10 GB）</td></tr>
+            <tr><td style="color:var(--mut)">驱动</td><td>较新的 NVIDIA 驱动（Vulkan 后端）</td></tr>
+            <tr><td style="color:var(--mut)">网络</td><td>仅首次下载模型需要</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <div class="grid g2" style="margin-top:24px">
+      <div class="card">
+        <h3><span class="ic">⌨</span>静默安装 / 批量部署</h3>
+        <p style="margin-bottom:10px">装到多台机器或写脚本时，可以跳过向导：</p>
+        <pre>CodeForge-Setup.exe --silent --dir=D:\APP\CodeForge
+  [--model=qwen-coder-7b-q4] [--no-model]
+  [--no-desktop] [--no-startmenu] [--no-reg]</pre>
+        <p style="margin:10px 0 0">装到已有安装的目录时会先自动关掉正在运行的引擎 / 服务 / 悬浮窗，避免文件被占用。</p>
+      </div>
+      <div class="card">
+        <h3><span class="ic">⌫</span>卸载</h3>
+        <p>设置 → 应用 → 已安装应用 → 「CodeForge 铸码工坊」→ 卸载。也可以双击安装目录里的 <code class="inl">卸载 CodeForge.bat</code>：它会先把自身复制到临时目录再执行，所以能把目录删干净、也不留临时文件。</p>
+        <p style="margin-top:10px">想保留模型换机器用？卸载前把 <code class="inl">models\*.gguf</code> 拷出来即可，新机器放进同名目录会被识别为「本地已有」直接跳过下载。</p>
+      </div>
+    </div>
+
+    <div class="sec-head" style="margin-top:46px">
+      <h2>v1.0.0 更新内容</h2>
+    </div>
+    <div class="card">
+      <h3 style="margin-bottom:12px"><span class="ic">✦</span>新增功能</h3>
+      <p style="color:#c9d0e0">
+        · 代码铸造管线：需求 → 生成 → 静态检查 → 自动写测试 → 跑测试 → 自修复 → 打包交付<br>
+        · 四档推理等级（极速 / 标准 / 深度 / 极限），实际改变候选数量、修复轮数、测试下限<br>
+        · 电脑 Agent 模式：ReAct 循环、七种动作、逐条审批卡、允许并全部允许、危险命令黑名单<br>
+        · 桌面悬浮窗：实时显示当前事项、第几步、进度条、已用时，双击打开主界面<br>
+        · 模型库自动适配：探测显存内存给 7 个候选打分，一键下载并切换、校验加载成功<br>
+        · 安装程序：向导式安装、按显存推荐模型、桌面快捷方式、标准卸载项<br>
+        · 深色单页 GUI：事件流实时推送、文件树浏览、试运行、ZIP 交付
+      </p>
+      <h3 style="margin:16px 0 10px"><span class="ic">✓</span>修复问题</h3>
+      <p style="color:var(--mut)">修复了一些已知问题。</p>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <div>© 2026 CodeForge · 铸码工坊 · MIT License</div>
+    <div>
+      <a href="index.html">首页</a> ·
+      <a href="https://github.com/zgs7157/CodeForge" target="_blank" rel="noopener">GitHub</a> ·
+      <a href="https://github.com/zgs7157/CodeForge/releases" target="_blank" rel="noopener">Releases</a>
+    </div>
+  </div>
+</footer>
+
+</body>
+</html>

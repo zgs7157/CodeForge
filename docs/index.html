@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>CodeForge · 铸码工坊 — 完全本地的 AI 代码工坊 + 电脑 Agent</title>
+<meta name="description" content="CodeForge 铸码工坊：跑在你自己显卡上的 AI 代码工坊。输入需求自动生成代码、写单元测试、跑测试、按报错自修复、打包交付；还能切成电脑 Agent 真正动手干活。无需 API Key，断网可用。">
+<meta property="og:title" content="CodeForge · 铸码工坊">
+<meta property="og:description" content="完全本地运行的 AI 代码工坊 + 电脑 Agent，不需要任何 API Key。">
+<meta property="og:image" content="assets/code-mode.jpg">
+<link rel="icon" href="../assets/codeforge.ico">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<div class="nav">
+  <div class="wrap">
+    <a class="brand" href="index.html"><img src="../assets/icon256.png" alt="">CodeForge<span style="color:var(--mut);font-weight:400">· 铸码工坊</span></a>
+    <nav>
+      <a href="#features">功能</a>
+      <a href="#shots">界面</a>
+      <a href="#agent">电脑 Agent</a>
+      <a href="#models">模型适配</a>
+      <a href="download.html">下载</a>
+      <a href="https://github.com/zgs7157/CodeForge" target="_blank" rel="noopener">GitHub</a>
+    </nav>
+    <a class="btn btn-primary" href="download.html">下载 Windows 版</a>
+  </div>
+</div>
+
+<header class="hero">
+  <div class="glow"></div>
+  <div class="wrap">
+    <div class="eyebrow"><span class="dot"></span> v1.0.0 已发布 · 全离线 · 无需 API Key</div>
+    <h1>跑在<em>你自己显卡</em>上的<br>AI 代码工坊 + 电脑 Agent</h1>
+    <p class="lead">
+      写一句需求，它自己生成代码、写单元测试、跑测试、按报错反复自修复，最后打包成 zip 交付。
+      切到「电脑 Agent」模式，同一个模型就变成动手干活的助手：执行命令、读写文件、整理目录——每一步都先问你一句。
+      模型和代码都留在本机，断网也能用。
+    </p>
+    <div class="cta">
+      <a class="btn btn-primary" href="https://github.com/zgs7157/CodeForge/releases/latest/download/CodeForge-Setup.exe">下载安装包 · 50.8 MB</a>
+      <a class="btn btn-ghost" href="https://github.com/zgs7157/CodeForge" target="_blank" rel="noopener">查看源码</a>
+      <a class="btn btn-ghost" href="download.html">全部版本与校验值</a>
+    </div>
+    <p class="meta">Windows 10/11 · 需要 NVIDIA 独显（6G 显存起，4G 可用 3B 模型）· MIT License</p>
+    <div class="chips">
+      <span class="chip">🔒 零上传：代码不出本机</span>
+      <span class="chip">⚡ GTX 1060 实测 23 tok/s</span>
+      <span class="chip">🧪 自动写测试 + 自修复</span>
+      <span class="chip">🖥️ 悬浮窗看进度</span>
+      <span class="chip">🧠 按显存自动推荐模型</span>
+      <span class="chip">🛡️ 危险命令永远拦</span>
+    </div>
+  </div>
+</header>
+
+<section id="features">
+  <div class="wrap">
+    <div class="sec-head">
+      <h2>它不是「帮你写两行代码」的玩具</h2>
+      <p>一条完整管线，从需求走到可运行、带测试、能打包的成品。</p>
+    </div>
+    <div class="grid g3">
+      <div class="card"><h3><span class="ic">⌘</span>代码铸造管线</h3>
+        <p>模型只输出「文件名 + 代码块」，本地解析成文件树，避免 JSON 转义把模型绕晕；生成后先过静态检查（Python 走 py_compile，Node 走 node --check）。</p></div>
+      <div class="card"><h3><span class="ic">🧪</span>自动测试与自修复</h3>
+        <p>让模型自己写 unittest 用例并真跑；失败日志回喂模型重写，最多 5 轮。漏 import 这类低级错误走确定性机械修复，不浪费推理。没跑绿会明确标 ⚠，不假装通过。</p></div>
+      <div class="card"><h3><span class="ic">🎚️</span>四档推理等级</h3>
+        <p>极速 1 轮不跑测试 / 标准 1 轮带测试 / 深度 2 候选择优 + 审查 / 极限 3 候选 + ≥8 用例 + 边界强化。档位真的改管线，不是装饰。</p></div>
+      <div class="card"><h3><span class="ic">🖥️</span>桌面悬浮窗</h3>
+        <p>右上角一张置顶小卡片，实时告诉你「正在处理什么、第几步 / 共几步、进度条、已用时」；等你批准操作时变橙色。双击它打开主界面。</p></div>
+      <div class="card"><h3><span class="ic">🧠</span>模型库自动适配</h3>
+        <p>探测显卡显存、内存、磁盘，给 7 个候选模型打分排序：能全量进显存的优先。点一下就下载（ModelScope 直连）并重启引擎、校验模型真的加载成功。</p></div>
+      <div class="card"><h3><span class="ic">📦</span>一键安装与卸载</h3>
+        <p>自带向导的 Setup：探硬件 → 推荐模型 → 选目录 → 解包 → 下载 → 建快捷方式 → 写卸载项。装进「设置 → 应用」里能正常卸载，不留垃圾。</p></div>
+    </div>
+  </div>
+</section>
+
+<section id="shots" style="background:var(--bg2);border-top:1px solid var(--line);border-bottom:1px solid var(--line)">
+  <div class="wrap">
+    <div class="sec-head">
+      <h2>界面长这样</h2>
+      <p>深色单页界面，Edge 无边框窗口，右侧实时事件流。</p>
+    </div>
+    <div class="shots">
+      <div class="shot"><img src="assets/code-mode.jpg" alt="代码工坊模式"><span>代码工坊：9 阶段时间线 + 等级卡 + 语言选择</span></div>
+      <div class="shot"><img src="assets/agent-mode.jpg" alt="电脑 Agent 模式"><span>电脑 Agent：模式切换、全部允许、右侧 Agent 阶段</span></div>
+      <div class="shot"><img src="assets/approval.jpg" alt="审批卡"><span>每个动作前弹审批卡：拒绝 / 允许 / 允许并全部允许</span></div>
+      <div class="shot"><img src="assets/model-library.jpg" alt="模型库"><span>模型库：按你的显存推荐，标注「全量进显存 / 部分卸载」</span></div>
+      <div class="shot"><img src="assets/hud.jpg" alt="悬浮窗"><span>悬浮窗：目标、当前动作、步号、进度条、已用时</span></div>
+      <div class="shot"><img src="assets/setup.jpg" alt="安装程序"><span>安装向导：自动选中推荐模型，可改目录与选项</span></div>
+    </div>
+  </div>
+</section>
+
+<section id="agent">
+  <div class="wrap">
+    <div class="sec-head">
+      <h2>「电脑 Agent」：让它真的动手</h2>
+      <p>同一个模型，从「写代码的」变成「替你干活的」。每步都在你的注视下。</p>
+    </div>
+    <div class="grid g2">
+      <div class="card"><h3><span class="ic">⟳</span>ReAct 循环</h3>
+        <p>模型每轮只吐一个 JSON 动作（thought / action / args），本地执行后把结果回喂，直到它自己 finish。上下文只留最近 8 条，8G 内存也不会被撑爆。</p></div>
+      <div class="card"><h3><span class="ic">✓</span>逐条审批 + 全部允许</h3>
+        <p>命令原样展示在橙色审批卡上，三个按钮：拒绝 / 允许 / 允许并全部允许。左侧还有「全部允许」勾选框，勾上后本会话不再打扰。</p></div>
+      <div class="card"><h3><span class="ic">🛡️</span>黑名单永远生效</h3>
+        <p>format、diskpart、del /s、reg delete、shutdown、bcdedit 这类命令，即使勾了「全部允许」也必须逐条确认。文件操作锁死在本次任务的专属工作目录。</p></div>
+      <div class="card"><h3><span class="ic">📄</span>全程留痕</h3>
+        <p>结束时写 agent_report.json（目标、结论、每步参数与结果）和 README.md，事后能复盘它到底做了什么、在你哪一步拒绝了它。</p></div>
+    </div>
+  </div>
+</section>
+
+<section id="models" style="background:var(--bg2);border-top:1px solid var(--line);border-bottom:1px solid var(--line)">
+  <div class="wrap">
+    <div class="sec-head">
+      <h2>按你的硬件选模型，不是按广告词</h2>
+      <p>下表的判定是在一台 GTX 1060 6G / i5-8400 / 8G 内存的机器上实跑出来的。</p>
+    </div>
+    <table>
+      <thead><tr><th>模型</th><th>体积</th><th>6G 显存判定</th><th>说明</th></tr></thead>
+      <tbody>
+        <tr><td>Qwen2.5-Coder-7B Q4_K_M</td><td>4.47 GB</td><td class="ok">全量进显存</td><td>推荐档位，23 tok/s，日常够用</td></tr>
+        <tr><td>Qwen2.5-Coder-3B Q4_K_M</td><td>2.00 GB</td><td class="ok">全量进显存</td><td>更快更省内存，复杂逻辑会掉质量</td></tr>
+        <tr><td>Qwen2.5-Coder-14B Q4_K_M</td><td>8.90 GB</td><td>部分卸载·明显变慢</td><td>质量更好，但会吃内存带宽</td></tr>
+        <tr><td>DeepSeek-Coder-V2-Lite 16B MoE Q4</td><td>9.60 GB</td><td>部分卸载·明显变慢</td><td>MoE 激活参数少，长上下文友好</td></tr>
+        <tr><td>Qwen2.5-Coder-1.5B Q4_K_M</td><td>1.05 GB</td><td class="ok">全量进显存</td><td>只适合小脚本与快速草稿</td></tr>
+        <tr><td>Qwen2.5-Coder-32B Q4</td><td>19.6 GB</td><td>显存跑不动</td><td>需要 24G 级别显卡</td></tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <div class="band">
+      <div>
+        <h2>现在就能装上跑</h2>
+        <p>50.8 MB 安装包，自带引擎与界面；模型装的时候按你的显存自动下载。</p>
+      </div>
+      <div class="cta">
+        <a class="btn btn-primary" href="https://github.com/zgs7157/CodeForge/releases/latest/download/CodeForge-Setup.exe">下载 CodeForge-Setup.exe</a>
+        <a class="btn btn-ghost" href="download.html">安装说明</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section style="padding-top:0">
+  <div class="wrap">
+    <div class="sec-head"><h2>常见问题</h2></div>
+    <div class="faq">
+      <div class="qa"><h4>真的完全不需要联网吗？</h4>
+        <p>推理、测试、打包全在本机。只有首次下载模型需要网络（约 2~5 GB）；模型下好之后断网照常用。代码不会上传到任何地方。</p></div>
+      <div class="qa"><h4>没有独立显卡能跑吗？</h4>
+        <p>能跑但很慢：可以选 1.5B / 3B 走 CPU，或者把 ngl 调低做部分卸载。6G 显存的 NVIDIA 卡是体验下限，8G 内存要留意别同时开太多程序。</p></div>
+      <div class="qa"><h4>它会不会乱删我的文件？</h4>
+        <p>默认逐条审批，命令原文摆在你面前；文件操作被限制在该次任务的专属工作目录；危险命令黑名单即使「全部允许」也要单独确认。无论怎样，跑系统级脚本前请自己看一眼。</p></div>
+      <div class="qa"><h4>生成的代码一定正确吗？</h4>
+        <p>不一定。它会给代码配测试并真跑，跑绿了才算交付；跑不绿会在界面明确标 ⚠「测试未全绿」，不会假装通过。7B 模型偶尔会把断言写错，管线会用测试对齐与快照对齐兜底，这类绿色会标成「弱验证」。</p></div>
+      <div class="qa"><h4>怎么卸载？</h4>
+        <p>设置 → 应用 → 已安装应用里找「CodeForge 铸码工坊」卸载；或直接双击安装目录里的 卸载 CodeForge.bat。会先关进程再删目录，不留残留。</p></div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <div>© 2026 CodeForge · 铸码工坊 · MIT License</div>
+    <div>
+      <a href="download.html">下载</a> ·
+      <a href="https://github.com/zgs7157/CodeForge" target="_blank" rel="noopener">GitHub</a> ·
+      <a href="https://github.com/zgs7157/CodeForge/releases" target="_blank" rel="noopener">Releases</a> ·
+      <a href="https://github.com/zgs7157/CodeForge/issues" target="_blank" rel="noopener">反馈</a>
+    </div>
+  </div>
+</footer>
+
+</body>
+</html>

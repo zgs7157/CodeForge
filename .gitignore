@@ -1,0 +1,23 @@
+# llama.cpp 运行时与模型不进仓库（体积大，见 README「从源码跑」）
+llama/
+models/
+projects/
+logs/
+
+# 构建产物
+installer/dist/
+installer/build/
+installer/payload.zip
+*.spec
+__pycache__/
+*.pyc
+
+# 本地配置与调试脚本
+config.json
+app/_*.py
+docs/_*.py
+
+# 编辑器
+.vscode/
+.idea/
+*.log
