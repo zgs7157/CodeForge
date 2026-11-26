@@ -8,7 +8,9 @@
 [![License: MIT](https://img.shields.io/badge/license-MIT-34d399)](LICENSE)
 [![Platform](https://img.shields.io/badge/platform-Windows%2010%2F11-22d3ee)](#系统要求)
 
-**下载：[CodeForge-Setup.exe（50.8 MB）](https://github.com/zgs7157/CodeForge/releases/latest/download/CodeForge-Setup.exe) · [官网与下载页](https://zgs7157.github.io/CodeForge/)**
+**下载：[CodeForge-Setup.exe（50.8 MB）](https://github.com/zgs7157/CodeForge/releases/latest/download/CodeForge-Setup.exe) · 网页版（免安装）：[打开网页版](https://4mkp9kkvkdfeh.doubaoapps.com/app/app_17ju6y5tx97) · [官网与下载页](https://zgs7157.github.io/CodeForge/)**
+
+> 网页版跑在云端，不依赖你的电脑；填「名字 + 密码」即可登录，名字全局唯一，重名会被直接拒绝注册/登录。生成记录存服务端，换设备登录也能看到。
 
 ![代码工坊界面](docs/assets/code-mode.jpg)
 
